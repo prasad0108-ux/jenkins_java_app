@@ -2,8 +2,8 @@ pipeline {
     agent any
     
     environment {
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
-        DOCKER_IMAGE = "your-dockerhub-username/jenkins-demo"
+        DOCKER_HUB_CREDENTIALS = credentials('dckr_pat_Zt4UYvwNsX3QYPPT3Hooi-Ikfa0')
+        DOCKER_IMAGE = "prasads01/jenkins-demo"
     }
 
     stages {
