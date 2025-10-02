@@ -2,6 +2,7 @@ pipeline {
     agent any
     
     environment {
+        // DockerHub credentials stored in Jenkins
         DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
         DOCKER_IMAGE = "prasads01/jenkins-demo"
     }
@@ -9,7 +10,10 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/your-username/jenkins-demo.git'
+                // Checkout code from GitHub using PAT credentials
+                git branch: 'main',
+                    url: 'https://github.com/prasad0108-ux/jenkins_java_app.git',
+                    credentialsId: 'github-pat'   // <-- Add your GitHub PAT credentials ID
             }
         }
 
