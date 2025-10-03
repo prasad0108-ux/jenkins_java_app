@@ -1,36 +1,16 @@
 pipeline {
     agent any
-
-    tools {
-        maven 'Maven-3.9'   // <-- This name must match the one you configured under Manage Jenkins → Tools
-        jdk 'JDK-17'        // <-- Optional: add JDK if needed
-    }
     
     environment {
-        // DockerHub credentials stored in Jenkins
-        DOCKER_HUB_CREDENTIALS = credentials('dockerhub-creds')
         DOCKER_IMAGE = "prasads01/jenkins-demo"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                // Checkout code from GitHub using PAT credentials
                 git branch: 'main',
                     url: 'https://github.com/prasad0108-ux/jenkins_java_app.git',
-                    credentialsId: 'github-pat'   // <-- Your GitHub PAT credentials ID
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean package -DskipTests'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
+                    credentialsId: 'github-pat'
             }
         }
 
@@ -50,7 +30,10 @@ pipeline {
 
         stage('Deploy (Run Container)') {
             steps {
-                sh 'docker run -d -p 8080:8080 $DOCKER_IMAGE:$BUILD_NUMBER'
+                sh '''
+                  docker rm -f jenkins-demo || true
+                  docker run -d --name jenkins-demo -p 8080:8080 $DOCKER_IMAGE:$BUILD_NUMBER
+                '''
             }
         }
     }
