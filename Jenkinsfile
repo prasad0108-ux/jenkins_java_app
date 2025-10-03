@@ -1,5 +1,10 @@
 pipeline {
     agent any
+
+    tools {
+        maven 'Maven-3.9'   // <-- This name must match the one you configured under Manage Jenkins → Tools
+        jdk 'JDK-17'        // <-- Optional: add JDK if needed
+    }
     
     environment {
         // DockerHub credentials stored in Jenkins
@@ -13,7 +18,7 @@ pipeline {
                 // Checkout code from GitHub using PAT credentials
                 git branch: 'main',
                     url: 'https://github.com/prasad0108-ux/jenkins_java_app.git',
-                    credentialsId: 'github-pat'   // <-- Add your GitHub PAT credentials ID
+                    credentialsId: 'github-pat'   // <-- Your GitHub PAT credentials ID
             }
         }
 
